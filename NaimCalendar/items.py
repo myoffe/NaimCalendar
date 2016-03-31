@@ -12,4 +12,6 @@ class CalendarItem(scrapy.Item):
     lesson = scrapy.Field()
     teacher = scrapy.Field()
     location = scrapy.Field()
-    hours = scrapy.Field()
+    start_time = scrapy.Field()
+    end_time = scrapy.Field()
+    date = scrapy.Field()
