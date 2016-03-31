@@ -1,0 +1,1393 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<script type="text/javascript" src="http://tazman.co.il/js/jquery.js"></script>
+</head>
+<body>
+<script type="text/javascript" src="http://tazman.co.il/js/jquery.js"></script><script type="text/javascript">
+                    var choose_location = "1";
+                    var lc = "0";
+                    var onsite = "0";
+                    var multiselect = "1";
+                    function prevWeek(user_id, shift, location_id, lc, teach_id,category_ids,multiselect){
+                            anotherWeek(shift-1, user_id,location_id, lc, teach_id,category_ids,multiselect);
+                    }
+
+                    function nextWeek(user_id, shift,location_id, lc, teach_id,category_ids,multiselect){
+                            anotherWeek(shift+1, user_id,location_id, lc, teach_id,category_ids,multiselect);
+                    }
+
+
+                    function anotherWeek(shift, user_id, location_id, lc, teach_id,category_ids,multiselect){
+                        var url = "http://tazman.co.il/ajax.php";
+                        jQuery.ajax({
+                            dataType: "jsonp",
+                            data: "action=get_another_week&multiselect="+ multiselect+ "&shift=" + shift + "&uid=" + user_id + "&width=" + 730 + "&height=" + 800 + "&link_to_minisite=minisite" + "&minisite=0" + "&location_id=" + location_id + "&choose_location=" + choose_location + "&lc=" + lc + "&lang=he"+((teach_id)?("&teacher="+teach_id) : "")+((category_ids)? "&categories="+category_ids:""),
+                            url: url,
+                            success: function (data) {
+                                jQuery("#wrapper").html(data);
+                                if(onsite){ try { timetable_selects(); } catch(e) { } }
+                            }
+                        });
+                    }
+
+                    function currWeek(user_id,location_id, lc, teach_id,category_ids,multiselect){
+                        var url = "http://tazman.co.il/ajax.php?action=get_curr_week&multiselect="+ multiselect+ "&uid=" + user_id+ "&width=" + 730 + "&height=" + 800+ "&link_to_minisite=minisite" + "&minisite=0" + "&location_id=" + location_id +  "&choose_location=" + choose_location + "&lc=" + lc + "&lang=he"+((teach_id)?("&teacher="+teach_id) : "")+((category_ids)? "&categories="+category_ids:"");
+
+                        jQuery.ajax({
+                            dataType: "jsonp",
+                            url: url,
+                           success: function (data) {
+                               jQuery("#wrapper").html(data);
+                                 if(onsite){
+                                 timetable_selects();
+                                    }
+                            }
+                        })
+                   }
+
+                    function prevMonth(user_id, shift, location_id, lc, teach_id,category_ids, multiselect){
+                            anotherMonth(shift-1, user_id,location_id, lc, teach_id,category_ids, multiselect);
+                    }
+
+                    function nextMonth(user_id, shift,location_id, lc, teach_id,category_ids, multiselect){
+                            anotherMonth(shift+1, user_id,location_id, lc, teach_id,category_ids, multiselect);
+                    }
+
+
+                    function anotherMonth(shift, user_id, location_id, lc, teach_id,category_ids, multiselect){
+                        var url = "http://tazman.co.il/ajax.php";
+                        jQuery.ajax({
+                            dataType: "jsonp",
+                            data: "action=get_another_month&multiselect="+ multiselect+ "&shift=" + shift + "&uid=" + user_id + "&width=" + 730 + "&height=" + 800 + "&link_to_minisite=minisite" + "&minisite=0" + "&location_id=" + location_id + "&choose_location=" + choose_location + "&lc=" + lc + "&lang=he"+((teach_id)?("&teacher="+teach_id) : "")+((category_ids)? "&categories="+category_ids:""),
+                            url: url,
+                            success: function (data) {
+
+                                jQuery("#wrapper").html(data);
+                                  if(onsite){
+                                 timetable_selects();
+                                    }
+                            }
+                        });
+                    }
+
+                    function currMonth(user_id,location_id, lc, teach_id,category_ids, multiselect){
+                        var url = "http://tazman.co.il/ajax.php?action=get_curr_month&multiselect="+ multiselect+ "&uid=" + user_id+ "&width=" + 730 + "&height=" + 800+ "&link_to_minisite=minisite" + "&minisite=0" + "&location_id=" + location_id +  "&choose_location=" + choose_location + "&lc=" + lc + "&lang=he"+((teach_id)?("&teacher="+teach_id) : "")+((category_ids)? "&categories="+category_ids:"");
+
+                        jQuery.ajax({
+                            dataType: "jsonp",
+                            url: url,
+                            success: function (data) {
+                                jQuery("#wrapper").html(data);
+                                  if(onsite){
+                                 timetable_selects();
+                                    }
+                            }
+                        })
+                    }
+                    
+
+
+                    function prevDay(user_id, shift, location_id, lc, teach_id,category_ids,multiselect){
+                    console.log(shift);
+                            anotherDay(shift-1, user_id,location_id, lc, teach_id,category_ids,multiselect);
+                    }
+
+                    function nextDay(user_id, shift,location_id, lc, teach_id,category_ids,multiselect){
+                    console.log(shift);
+                            anotherDay(shift+1, user_id,location_id, lc, teach_id,category_ids,multiselect);
+                    }
+
+
+                    function anotherDay(shift, user_id, location_id, lc, teach_id,category_ids,multiselect){
+                    console.log(shift);
+                       var url = "http://tazman.co.il/ajax.php?action=get_another_day&use_location=1&use_teacher=1&use_category=1&multiselect="+ multiselect + "&shift=" + shift + "&uid=" + user_id+ "&width=" + 730 + "&height=" + 800+ "&link_to_minisite=minisite" + "&minisite=0" + "&location_id=" + location_id +  "&choose_location=" + choose_location + "&lc=" + lc + "&lang=he"+((teach_id)?("&teacher="+teach_id) : "")+((category_ids)? "&categories="+category_ids:"");
+                        jQuery.ajax({
+                            dataType: "jsonp",
+                            
+                            url: url,
+                            success: function (data) {
+
+                                jQuery("#wrapper").html(data);
+                                  if(onsite){
+                                 timetable_selects();
+                                    }
+                            },
+                            error: function(){
+                                console.log("Timtable error!!!!!!!!!!!");
+                            }
+                        });
+                    }
+
+                    function currDay(user_id,location_id, lc, teach_id,category_ids){
+                       var url = "http://tazman.co.il/ajax.php?action=get_curr_day&multiselect="+ multiselect+ "&uid=" + user_id+ "&width=" + 730 + "&height=" + 800+ "&link_to_minisite=minisite" + "&minisite=0" + "&location_id=" + location_id +  "&choose_location=" + choose_location + "&lc=" + lc + "&lang=he"+((teach_id)?("&teacher="+teach_id) : "")+((category_ids)? "&categories="+category_ids:"");
+
+                        jQuery.ajax({
+                            dataType: "jsonp",
+                            url: url,
+                            success: function (data) {
+                                jQuery("#wrapper").html(data);
+                                  if(onsite){
+                                 timetable_selects();
+                                    }
+                            },
+                           error: function(){
+                                console.log("Timtable error!!!!!!!!!!!");
+                            }
+
+                        });
+                    }
+
+
+                    function getView(user_id,location_id, lc, teach_id,category_ids){
+                            var view_type = jQuery("#form_view_types").val();
+                            console.log(view_type);
+                            switch(view_type){
+                                    case "2":
+                                            currWeek(user_id,location_id, lc, teach_id,category_ids, multiselect);
+                                            break;
+                                    case "1":
+                                            currMonth(user_id,location_id, lc, teach_id,category_ids, multiselect);
+                                            break;
+                                    case "3":
+                                            currDay(user_id,location_id, lc, teach_id,category_ids, multiselect);
+                                            break;
+                            }
+
+                    }
+
+                    function createCookie(name,value1,value2,days) {
+						/*
+						alert(name);
+						alert(value1);
+						alert(value2);
+						alert(days);
+						alert(link);
+						*/
+                        if (days) {
+                                var date = new Date();
+                                date.setTime(date.getTime()+(days*24*60*60*1000));
+                                var expires = "; expires="+date.toGMTString();
+                        }
+                        else var expires = "";
+                        document.cookie = name+"="+value1+expires+"; path=/";
+                        document.cookie = name+"_t2="+value2+expires+"; path=/";
+
+                        return true;
+                    }
+                </script><style>
+	div.wrapper,
+ table.course-registration  {
+   direction: rtl;
+}
+	table.course-registration th.reg{
+  text-align: left;
+}
+		a.created{
+			  color: #237293;
+			  text-decoration: none;
+			  font: 14px Arial,sans-serif;
+			  padding-right: 20px;
+			  margin-top: 5px;
+			  background: url(http://tazman.co.il/images/tazman-logo-small.png) no-repeat scroll right top;
+			  display: block;
+			  text-align: right;
+			  width: 200px;
+		}
+
+div.schedule-top{
+	margin-bottom: 5px;
+	line-height: 36px;
+	color: #000000;
+}
+div.schedule-top div.date{
+	clear: both;
+	line-height: 36px;
+	height: 30px;
+	text-align: center;
+}
+table.schedule{
+	/* border: 1px #C2AC97 solid;*/
+        font-family:Arial,Tahoma;
+        margin: 5px 15px;
+	border-collapse:separate;
+}
+table.schedule,
+table.schedule th,
+table.schedule td{
+/* border-collapse: collapse;*/
+}
+table.schedule tr.min th{
+
+  border: none;
+  /*  border-collapse: collapse;*/
+  /*  border-left: 1px #C2AC97 solid;
+    border-right: 1px #C2AC97 solid; */
+	 border-left: 1px #ffffff solid;
+    border-right: 1px #ffffff solid;
+    padding-top:0;
+    padding-bottom: 0;
+    text-align: right;
+    height: 2px;
+/*    text-decoration: underline;*/
+}
+
+table.schedule tr.min td{
+    border: none;
+    /* border-left: 1px #C2AC97 solid;
+    border-right: 1px #C2AC97 solid; */
+	border-left: 1px #ffffff solid;
+    border-right: 1px #ffffff solid;
+     padding-top:0;
+    padding-bottom: 0;
+    height: 2px;
+    font-size: 2px;
+    line-height: 2px;
+	vertical-align: middle;
+}
+
+table.schedule tr.before-min th{
+
+     border-top: none;
+    /* border-bottom: 1px #C2AC97 solid;*/
+	border-bottom: 1px #ffffff solid;
+    text-align: right;
+/*    text-decoration: underline;*/
+    padding-top: 0;
+    padding-bottom: 0;
+ /*   border-collapse: collapse;*/
+    height: 2px;
+     font-size: 2px;
+        line-height: 2px;
+
+}
+table.schedule th.end-hour{
+/*     border-bottom: 1px #C2AC97 solid;*/
+    line-height: 2px;
+     border-right: none;
+    font-size: 2px;
+}
+table.schedule th.hour{
+    border-left: none;
+    /* border-bottom: 1px #C2AC97 solid; */
+	border-bottom: 1px #ffffff solid;
+	background-color: #ffffff;
+     font-size: 13px;
+
+}
+table.schedule tr.before-min th.min,
+table.schedule tr.min th.min{
+   border-right: none;
+/*    border-bottom: 1px #C2AC97 solid;*/
+    height: 2px;
+    line-height: 2px;
+    font-size: 2px;
+}
+table.schedule tr.before-min td{
+    border-top: none;
+   /* border-bottom: 1px #C2AC97 solid;*/
+   border-bottom: 1px #ffffff solid;
+    height: 2px;
+     font-size: 2px;
+        line-height: 2px;
+
+}
+table.schedule tr.top{
+ height: 41px;
+ line-height: 41px;
+ overflow-y: hidden;
+ }
+ table.schedule th{
+     background: #3494d7;
+}
+		@font-face {
+    font-family: "nachlieli_clm";
+    src: url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-bold-webfont.eot");
+    src: url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-bold-webfont.eot?#iefix") format("embedded-opentype"),
+         url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-bold-webfont.woff") format("woff"),
+         url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-bold-webfont.ttf") format("truetype"),
+         url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-bold-webfont.svg#nachlieli_clmbold") format("svg");
+    font-weight: bold;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: "nachlieli_clm";
+    src: url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-boldoblique-webfont.eot");
+    src: url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-boldoblique-webfont.eot?#iefix") format("embedded-opentype"),
+         url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-boldoblique-webfont.woff") format("woff"),
+         url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-boldoblique-webfont.ttf") format("truetype"),
+         url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-boldoblique-webfont.svg#nachlieli_clmboldoblique") format("svg");
+    font-weight: bold;
+    font-style: italic;
+
+}
+
+
+
+
+@font-face {
+    font-family: "nachlieli_clm";
+    src: url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-light-webfont.eot");
+    src: url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-light-webfont.eot?#iefix") format("embedded-opentype"),
+         url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-light-webfont.woff") format("woff"),
+         url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-light-webfont.ttf") format("truetype"),
+         url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-light-webfont.svg#nachlieli_clmlight") format("svg");
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: "nachlieli_clm";
+    src: url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-lightoblique-webfont.eot");
+    src: url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-lightoblique-webfont.eot?#iefix") format("embedded-opentype"),
+         url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-lightoblique-webfont.woff") format("woff"),
+         url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-lightoblique-webfont.ttf") format("truetype"),
+         url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-lightoblique-webfont.svg#nachlieli_clmlightoblique") format("svg");
+    font-weight: normal;
+    font-style: italic;
+
+}
+		div.date{
+			line-height: 38px;
+			clear: both;
+			/* float: right; */
+			margin: 0 5px;
+			font-size: 14px;
+		}
+		div.date.ltr{
+		/*	float: left;*/
+		}
+table.schedule th.data {
+    color: #888 !important;
+    background: none repeat scroll 0% 0% #F8F8F8 !important;
+    border: 1px solid #CACACA !important;
+    border-collapse: collapse !important;
+    //border-width: 1px;
+}
+table.schedule th.col-title {
+    width: auto;
+    vertical-align: middle;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 12px;
+}
+table.schedule tr.top th div {
+    position: relative;
+}
+table.schedule tr.top th .bw {
+    position: absolute;
+    right: 0px;
+    font-size: 74px;
+    color: rgb(153, 201, 235);
+    top: 0;
+    height: 40px;
+    overflow: hidden;
+    display: block;
+    text-transform:lowercase;
+    line-height: 40px;
+    z-index: 1;
+    font-family: nachlieli_clm;
+}
+table.schedule tr.top th .bwr {
+    position: absolute;
+    right: 0px;
+    font-size: 58px;
+    color: rgb(153, 201, 235);
+    top: 0;
+    height: 40px;
+    overflow: hidden;
+    display: block;
+    text-transform:uppercase;
+    line-height: 47px;
+    z-index: 1;
+    font-family: nachlieli_clm, Arial, sans-serif;
+}
+
+
+table.schedule tr.top th .date {
+    position: absolute;
+    left: 5px;
+    z-index: 2;
+    top: 8px;
+}
+table.schedule th.hour{
+    background: #efefef;
+    /*width: 108px;*/
+    color: #5e5e5e;
+    border-color: #cacaca;
+}
+table.schedule th.middle {
+    background: #cacaca;
+    border: 1px solid #cacaca;
+    border-color: #cacaca;
+    height: 5px !important;
+}
+ table.schedule tr.top th{
+    height: 41px;
+    line-height: 24px;
+    overflow-y: hidden;
+    table-layout: fixed;
+    color: white;
+    vertical-align:top;
+ }
+  table.schedule tr.top.mid{
+	height: 5px;
+	line-height: 5px;
+  }
+ table.schedule tr.top th.middle{
+	height: 5px;
+	line-height: 5px;
+	background-color: #dae5eb;
+	}
+ table.schedule th{
+	text-align: center;
+/*	background: #3494d7 !important;*/
+}
+
+ table.schedule td.bord{
+   /*  border-bottom: 1px #C2AC97 solid; */
+   border-bottom: 1px #ffffff solid;
+   padding: 2px;
+   padding-bottom: 0px;
+ }
+ table.schedule td{
+	vertical-align: middle;
+	/*border-top: 1px #C2AC97 solid;
+	border-left: 1px #C2AC97 solid;
+	border-right: 1px #C2AC97 solid;*/
+	border-top: 1px #ffffff solid;
+	border-left: 1px #ffffff solid;
+	border-right: 1px #ffffff solid;
+	width: 14%;
+	text-align: center;
+        border-bottom: none;
+        font-size: 2px;
+        line-height: 2px;
+        height: 2px;
+
+         padding:0;
+	background-color: #eaf2f5;
+}
+table.schedule tr.before-min td.group,
+table.schedule tr.min td.group,
+table.schedule tr td.group{
+
+  /* border-bottom: 1px #C2AC97 solid;
+   border-top: 1px #C2AC97 solid;
+   border-bottom: 1px #ffffff solid;
+    border-top: 1px #ffffff solid; */
+	border: 1px solid #cedde4;
+	min-height: 60px;
+   margin: 1px;
+    }
+/*   table.schedule div.courses{
+    border: 1px solid #C2AC97;
+  } */
+table.schedule td a{
+	font-weight: normal;
+	text-decoration: none;
+}
+
+
+ table.schedule td.td-spacer{
+      /*  background-color: #A8D3E1;*/
+	   background-color: #dae5eb;
+}
+
+ table.schedule div.time{
+	/* color: #888888;*/
+	color: #758690;
+	font-size: x-small;
+}
+table.schedule div.courses{
+	padding: 2px;
+	/* border: 1px #cddee5 solid;  */
+}
+table.schedule div.course{
+    font-size: 12px;
+    line-height: 12px;
+
+	line-height: 16px;
+}
+
+div.wrapper{
+border: 2px solid #ffffff;
+-moz-border-radius: 7px;
+-webkit-border-radius: 7px;
+-khtml-border-radius: 7px;
+border-radius: 7px;
+padding: 5px ;
+/* padding: 2px;
+-moz-border-radius: 7px;
+border-radius: 7px;
+-webkit-border-radius:7px;
+behavior:url(http://tazman.co.il/border-radius.htc); */
+    position: relative;
+    text-align: center;
+    line-height: 24px;
+	margin: 0 auto;
+}
+/*div.wrapper div.corner{
+    background: none;
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    color: #025c84;
+}
+div.wrapper div.corner.top-left{
+    top: -2px;
+    left: -2px;
+    background-position: top left;
+}
+div.wrapper div.corner.top-right{
+    top: -2px;
+    right: -2px;
+    background-position: top right;
+}
+div.wrapper div.corner.bot-left{
+    bottom: -2px;
+    left: -2px;
+    background-position: bottom left;
+}
+div.wrapper div.corner.bot-right{
+    bottom: -2px;
+    right: -2px;
+     background-position: bottom right;
+}*/
+div.wrapper a.link:hover,
+div.wrapper a.link{
+
+    width: 97px;
+    height: 27px;
+    display: block;
+	margin-top: 5px;
+	background: #adadad;
+	line-height: 27px;
+	color: white !important;;
+	text-decoration: none;
+    font-size: 13px;
+    line-height: 24px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+	border-radius: 3px;
+    }
+	div.wrapper a.link:hover{
+		/*text-decoration: underline;*/
+	}
+     div.wrapper a.curr{
+    color: #adadad !important;
+
+    }
+	 div.wrapper a.curr:hover{
+		 color: #adadad !important;
+	}
+    div.wrapper a.link.next{
+    float: right;
+    /*background: url(http://tazman.co.il/images/btn-timetbl-next.png) no-repeat scroll;*/
+       padding-left: 0px;
+          width: 97px;
+        margin-left: -3px;
+    }
+    div.wrapper a.link.next.ltr{
+        float: left;
+       /* background: url(http://tazman.co.il/images/btn-timetbl-prev.png) no-repeat scroll;*/
+        padding-left: 0px;
+        padding-right: 0px;
+        width: 97px;
+    }
+    div.wrapper a.curr{
+    float: right;
+    margin-right: 10px;
+	margin-top: 7px;
+    }
+    div.wrapper a.curr.ltr{
+    float: left;
+    margin-right: 0px;
+    margin-leftt: 5px;
+    }
+	div.wrapper select.styled1{
+		float: left;
+		margin-right: 5px;
+		/*margin-top: 10px;*/
+	}
+div.wrapper select.styled1ltr{
+	float: right;
+	margin-left: 5px;
+	margin-right: 0;
+/*	margin-top: 10px;*/
+}
+select.styled1{
+float: left;
+/*margin-top: 10px;*/
+/* margin-left: 15px;*/
+}
+select.styled1.ltr{
+	float: right;
+	/*margin-right: 15px;
+	margin-left: 0;*/
+}
+div.clear-divs{
+	clear: both;
+}
+    div.wrapper a.link.prev{
+    float: right;
+   /* background: url(http://tazman.co.il/images/btn-timetbl-prev.png) no-repeat scroll;
+        width: 76px;*/
+        padding-right: 0;
+		margin-left: 5px;
+    }
+    div.wrapper a.link.prev.ltr{
+        float: left;
+       /* background: url(http://tazman.co.il/images/btn-timetbl-next.png) no-repeat scroll;
+        padding-left: 15px;
+        padding-right: 0px;  */
+		margin-right: 5px;
+		margin-left: 0;
+    }
+
+
+    div.curr_week{
+        float: left;
+        width: 331px;
+    }
+/* div.wrapper-in{
+background: #ffffff;
+padding: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
+-webkit-border-radius:5px;
+behavior:url(http://tazman.co.il/border-radius.htc);
+}*/
+
+</style><style>div.schedule-top{
+			color: #;
+		}
+		@font-face {
+    font-family: "nachlieli_clm";
+    src: url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-bold-webfont.eot");
+    src: url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-bold-webfont.eot?#iefix") format("embedded-opentype"),
+         url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-bold-webfont.woff") format("woff"),
+         url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-bold-webfont.ttf") format("truetype"),
+         url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-bold-webfont.svg#nachlieli_clmbold") format("svg");
+    font-weight: bold;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: "nachlieli_clm";
+    src: url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-boldoblique-webfont.eot");
+    src: url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-boldoblique-webfont.eot?#iefix") format("embedded-opentype"),
+         url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-boldoblique-webfont.woff") format("woff"),
+         url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-boldoblique-webfont.ttf") format("truetype"),
+         url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-boldoblique-webfont.svg#nachlieli_clmboldoblique") format("svg");
+    font-weight: bold;
+    font-style: italic;
+
+}
+@font-face {
+    font-family: "nachlieli_clm";
+    src: url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-light-webfont.eot");
+    src: url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-light-webfont.eot?#iefix") format("embedded-opentype"),
+         url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-light-webfont.woff") format("woff"),
+         url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-light-webfont.ttf") format("truetype"),
+         url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-light-webfont.svg#nachlieli_clmlight") format("svg");
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: "nachlieli_clm";
+    src: url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-lightoblique-webfont.eot");
+    src: url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-lightoblique-webfont.eot?#iefix") format("embedded-opentype"),
+         url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-lightoblique-webfont.woff") format("woff"),
+         url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-lightoblique-webfont.ttf") format("truetype"),
+         url("http://tazman.co.il/fonts/nachlieli/nachlieliclm-lightoblique-webfont.svg#nachlieli_clmlightoblique") format("svg");
+    font-weight: normal;
+    font-style: italic;
+}
+		div.date{
+			line-height: 38px;
+			clear: both;
+			/* float: right; */
+			margin: 0 5px;
+			font-size: 14px;
+		}
+		div.date.ltr{
+		/*	float: left;*/
+		}
+table.schedule th.data {
+    color: #888 !important;
+    background: none repeat scroll 0% 0% #F8F8F8 !important;
+    border: 1px solid #CACACA !important;
+    border-collapse: collapse !important;
+    //border-width: 1px;
+}
+table.schedule th.col-title {
+    width: auto;
+    vertical-align: middle;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 12px;
+}
+table.schedule tr.top th div {
+    position: relative;
+}
+table.schedule tr.top th .bw {
+    position: absolute;
+    right: 0px;
+    font-size: 74px;
+    color: rgb(153, 201, 235);
+    top: 0;
+    height: 40px;
+    overflow: hidden;
+    display: block;
+    text-transform:lowercase;
+    line-height: 40px;
+    z-index: 1;
+    font-family: nachlieli_clm;
+}
+table.schedule tr.top th .bwr {
+    position: absolute;
+    right: 0px;
+    font-size: 58px;
+    color: rgb(153, 201, 235);
+    top: 0;
+    height: 40px;
+    overflow: hidden;
+    display: block;
+    text-transform:uppercase;
+    line-height: 47px;
+    z-index: 1;
+    font-family: nachlieli_clm, Arial, sans-serif;
+}
+
+
+table.schedule tr.top th .date {
+    position: absolute;
+    left: 5px;
+    z-index: 2;
+    top: 8px;
+}
+
+             table.course-registration,
+             table.schedule td,
+			 table.schedule th{
+                        background: #;
+                            }
+          table.schedule tr.top th,
+          table.course-registration th{
+            color: #;
+          }
+          table.schedule th.col-title {
+            color: #;
+          }
+          table.schedule tr.top th .bw,
+            table.schedule tr.top th .bwr {
+                color: #;
+                opacity: 0.3;
+            }
+            table.schedule tr.top th,
+            table.course-registration th{
+                background: #;
+            }
+            table.schedule th.col-title {
+                background: #;
+            }
+            table.schedule th.hour{
+          background: #;
+              }table.schedule th.hour,table.schedule th.odd{
+          color: #;
+              }th.even{
+          color: #;
+              }.td-spacer{
+          background: #;
+              }
+        table.schedule tr td,
+        table.schedule tr.min td,
+        table.schedule tr.before-min td,
+        table.schedule tr th,
+        table.course-registration,
+        table.course-registration tr th,
+        table.course-registration tr td{
+          border-color: #;
+              }
+        table.schedule tr.top th{
+            border-bottom-color: #;
+        }
+		table.schedule{
+			border: none;
+		}
+		table.schedule tr td div.time{
+          color: #;
+              }
+	   table.schedule tr.before-min td.group,
+	   table.schedule tr.min td.group,
+	   table.schedule tr td.group{
+          border-color: #;
+           background: #ffffff;
+              }div.wrapper{
+          border-color: #;
+              }
+         div.wrapper div.corner{
+           background-image: url(#)
+         }table.schedule tr th.hour,th.reg{
+          border: none;
+              }table.schedule tr.top th{
+          border-color: transparent;
+              }</style><div class="wrapper" id="wrapper" style=" width: 760px;"><script type="text/javascript"> var start_location="0"; var start_teacher="0"; var start_category="0";</script><div class="schedule-top"><div class="desktop-only"><div class="">חמישי, 31/03/2016 (היום)</div><a class="page_prev_blue link prev " onclick="prevDay(511,0, start_location, 0,start_teacher, start_category,1);return false;"><span>יום הקודם</span></a><a class="page_next_blue link next " onclick="nextDay(511,0, start_location, 0, start_teacher, start_category,1);return false;"><span>יום הבא</span></a></div><div class="filter-tabs"><div class="tabs-header"><div class="tab" id="locations" style="cursor:pointer">מערכת שעות לפי מיקומים</div><div class="tab" id="teachers" style="cursor:pointer">מורים</div><div class="tab" id="categories" style="cursor:pointer">קטגוריות</div></div><div class="buttons"><button class="apply" id="filter">הפעל סינון</button><button class="clear" id="clear">בטל סינון</button><div class="clear-divs"></div></div><div class="places tab-content" id="content-locations" style="display:none"><div  id="form_location_id"  class="styled1"  ><div class="chbx"><input type="checkbox"
+	        value="0" id="location_id0" name="location_id[]" class=" class="styled1"" checked="checked" >&nbsp;
+	        <label for="location_id0">כל המיקומים</label></div><div class="chbx"><input type="checkbox"
+	        value="395" id="location_id1" name="location_id[]" class=" class="styled1"" >&nbsp;
+	        <label for="location_id1">דרך שלמה 46</label></div><div class="chbx"><input type="checkbox"
+	        value="1267" id="location_id2" name="location_id[]" class=" class="styled1"" >&nbsp;
+	        <label for="location_id2">רוטשילד 4</label></div><div class="chbx"><input type="checkbox"
+	        value="1268" id="location_id3" name="location_id[]" class=" class="styled1"" >&nbsp;
+	        <label for="location_id3">וושינגטון 29</label></div><div class="chbx"><input type="checkbox"
+	        value="1499" id="location_id4" name="location_id[]" class=" class="styled1"" >&nbsp;
+	        <label for="location_id4">שמעון הצדיק 18, יפו</label></div></div></div><div class="places tab-content" id="content-teachers" style="display:none"><div  id="form_view_teachers"  class="styled1"  ><div class="chbx"><input type="checkbox"
+	        value="0" id="view_teachers0" name="view_teachers[]" class=" class="styled1"" checked="checked" >&nbsp;
+	        <label for="view_teachers0">כל המורים</label></div><div class="chbx"><input type="checkbox"
+	        value="2642" id="view_teachers1" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers1">אביגיל שסטצקי</label></div><div class="chbx"><input type="checkbox"
+	        value="2403" id="view_teachers2" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers2">אביטל אדר</label></div><div class="chbx"><input type="checkbox"
+	        value="2442" id="view_teachers3" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers3">אדווה שמיר</label></div><div class="chbx"><input type="checkbox"
+	        value="2276" id="view_teachers4" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers4">אדי טויונגה</label></div><div class="chbx"><input type="checkbox"
+	        value="2242" id="view_teachers5" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers5">אדם הראל</label></div><div class="chbx"><input type="checkbox"
+	        value="2317" id="view_teachers6" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers6">אווה</label></div><div class="chbx"><input type="checkbox"
+	        value="2923" id="view_teachers7" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers7">אור קרת</label></div><div class="chbx"><input type="checkbox"
+	        value="2381" id="view_teachers8" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers8">אורי שפיר</label></div><div class="chbx"><input type="checkbox"
+	        value="3183" id="view_teachers9" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers9">אורית סוכרי</label></div><div class="chbx"><input type="checkbox"
+	        value="3169" id="view_teachers10" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers10">אורלי אבקסיס</label></div><div class="chbx"><input type="checkbox"
+	        value="2401" id="view_teachers11" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers11">אייבי</label></div><div class="chbx"><input type="checkbox"
+	        value="2777" id="view_teachers12" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers12">איילת בשור</label></div><div class="chbx"><input type="checkbox"
+	        value="2316" id="view_teachers13" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers13">איילת פלדברג</label></div><div class="chbx"><input type="checkbox"
+	        value="2690" id="view_teachers14" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers14">אירוע מיוחד</label></div><div class="chbx"><input type="checkbox"
+	        value="3014" id="view_teachers15" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers15">איריס סמרה</label></div><div class="chbx"><input type="checkbox"
+	        value="2281" id="view_teachers16" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers16">אלה בן אהרון</label></div><div class="chbx"><input type="checkbox"
+	        value="2303" id="view_teachers17" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers17">אלה גרינבאום</label></div><div class="chbx"><input type="checkbox"
+	        value="2397" id="view_teachers18" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers18">אלון שטויאר</label></div><div class="chbx"><input type="checkbox"
+	        value="2271" id="view_teachers19" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers19">אליה אתקין</label></div><div class="chbx"><input type="checkbox"
+	        value="2318" id="view_teachers20" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers20">אלעד שבתאי</label></div><div class="chbx"><input type="checkbox"
+	        value="2619" id="view_teachers21" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers21">אמי</label></div><div class="chbx"><input type="checkbox"
+	        value="2912" id="view_teachers22" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers22">בועז נחייאסי</label></div><div class="chbx"><input type="checkbox"
+	        value="2376" id="view_teachers23" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers23">ג'אנח</label></div><div class="chbx"><input type="checkbox"
+	        value="2643" id="view_teachers24" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers24">ג'ואי</label></div><div class="chbx"><input type="checkbox"
+	        value="2282" id="view_teachers25" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers25">ג'קי לוגן</label></div><div class="chbx"><input type="checkbox"
+	        value="2304" id="view_teachers26" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers26">גבריאל נויהאוס</label></div><div class="chbx"><input type="checkbox"
+	        value="2911" id="view_teachers27" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers27">גיל לוי</label></div><div class="chbx"><input type="checkbox"
+	        value="2286" id="view_teachers28" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers28">גלי וקסלר</label></div><div class="chbx"><input type="checkbox"
+	        value="3063" id="view_teachers29" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers29">דיוויה</label></div><div class="chbx"><input type="checkbox"
+	        value="2399" id="view_teachers30" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers30">דין זרגו</label></div><div class="chbx"><input type="checkbox"
+	        value="2240" id="view_teachers31" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers31">דינה זיו</label></div><div class="chbx"><input type="checkbox"
+	        value="2928" id="view_teachers32" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers32">דנה סוקולר</label></div><div class="chbx"><input type="checkbox"
+	        value="2407" id="view_teachers33" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers33">דניאל חזן</label></div><div class="chbx"><input type="checkbox"
+	        value="2412" id="view_teachers34" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers34">דניאל קזס</label></div><div class="chbx"><input type="checkbox"
+	        value="2305" id="view_teachers35" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers35">דניאלה בלוך</label></div><div class="chbx"><input type="checkbox"
+	        value="2359" id="view_teachers36" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers36">דפנה גרבינסקי</label></div><div class="chbx"><input type="checkbox"
+	        value="2496" id="view_teachers37" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers37">הדס תירוש</label></div><div class="chbx"><input type="checkbox"
+	        value="3111" id="view_teachers38" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers38">זהר נבו</label></div><div class="chbx"><input type="checkbox"
+	        value="2989" id="view_teachers39" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers39">חנה שוורץ</label></div><div class="chbx"><input type="checkbox"
+	        value="3270" id="view_teachers40" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers40">טל ארונס</label></div><div class="chbx"><input type="checkbox"
+	        value="2908" id="view_teachers41" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers41">טל פרנסקי</label></div><div class="chbx"><input type="checkbox"
+	        value="2683" id="view_teachers42" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers42">טליה סוטרה</label></div><div class="chbx"><input type="checkbox"
+	        value="2379" id="view_teachers43" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers43">טניה סבן</label></div><div class="chbx"><input type="checkbox"
+	        value="2598" id="view_teachers44" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers44">יואב שחר</label></div><div class="chbx"><input type="checkbox"
+	        value="2395" id="view_teachers45" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers45">יובל בנטמן</label></div><div class="chbx"><input type="checkbox"
+	        value="3092" id="view_teachers46" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers46">יוליה שפונט</label></div><div class="chbx"><input type="checkbox"
+	        value="2279" id="view_teachers47" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers47">יונתן קדם</label></div><div class="chbx"><input type="checkbox"
+	        value="2268" id="view_teachers48" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers48">יעל אלחנן</label></div><div class="chbx"><input type="checkbox"
+	        value="2382" id="view_teachers49" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers49">יעל בקר</label></div><div class="chbx"><input type="checkbox"
+	        value="2277" id="view_teachers50" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers50">ירדן רז</label></div><div class="chbx"><input type="checkbox"
+	        value="2409" id="view_teachers51" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers51">ליאת פייקס</label></div><div class="chbx"><input type="checkbox"
+	        value="2390" id="view_teachers52" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers52">ליגל מלמד</label></div><div class="chbx"><input type="checkbox"
+	        value="2287" id="view_teachers53" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers53">ליטל קורן</label></div><div class="chbx"><input type="checkbox"
+	        value="2288" id="view_teachers54" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers54">לילך סדווי</label></div><div class="chbx"><input type="checkbox"
+	        value="2416" id="view_teachers55" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers55">לינוי מרקו</label></div><div class="chbx"><input type="checkbox"
+	        value="2302" id="view_teachers56" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers56">לירון כהן</label></div><div class="chbx"><input type="checkbox"
+	        value="2441" id="view_teachers57" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers57">לירון עזרא</label></div><div class="chbx"><input type="checkbox"
+	        value="2658" id="view_teachers58" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers58">מארווין</label></div><div class="chbx"><input type="checkbox"
+	        value="2627" id="view_teachers59" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers59">מארווין</label></div><div class="chbx"><input type="checkbox"
+	        value="2764" id="view_teachers60" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers60">מוראד בויאד</label></div><div class="chbx"><input type="checkbox"
+	        value="2499" id="view_teachers61" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers61">מורה מתחלף</label></div><div class="chbx"><input type="checkbox"
+	        value="2380" id="view_teachers62" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers62">מורן גרוס</label></div><div class="chbx"><input type="checkbox"
+	        value="3148" id="view_teachers63" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers63">מורן שניר</label></div><div class="chbx"><input type="checkbox"
+	        value="2384" id="view_teachers64" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers64">מיטל עובד</label></div><div class="chbx"><input type="checkbox"
+	        value="2383" id="view_teachers65" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers65">מיכל בן ליאור</label></div><div class="chbx"><input type="checkbox"
+	        value="2269" id="view_teachers66" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers66">מיכל גודפרי</label></div><div class="chbx"><input type="checkbox"
+	        value="2408" id="view_teachers67" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers67">מיכלי</label></div><div class="chbx"><input type="checkbox"
+	        value="2489" id="view_teachers68" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers68">מתן דסקל</label></div><div class="chbx"><input type="checkbox"
+	        value="2514" id="view_teachers69" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers69">מתן הלוי</label></div><div class="chbx"><input type="checkbox"
+	        value="2512" id="view_teachers70" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers70">נאוה בן יקיר</label></div><div class="chbx"><input type="checkbox"
+	        value="2446" id="view_teachers71" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers71">נדב</label></div><div class="chbx"><input type="checkbox"
+	        value="2241" id="view_teachers72" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers72">נועה צוק</label></div><div class="chbx"><input type="checkbox"
+	        value="2936" id="view_teachers73" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers73">נועה שגב</label></div><div class="chbx"><input type="checkbox"
+	        value="2289" id="view_teachers74" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers74">נטלי אהרון</label></div><div class="chbx"><input type="checkbox"
+	        value="2406" id="view_teachers75" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers75">נטע קוטאי</label></div><div class="chbx"><input type="checkbox"
+	        value="2404" id="view_teachers76" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers76">נטע שריג</label></div><div class="chbx"><input type="checkbox"
+	        value="2490" id="view_teachers77" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers77">ניצן לדרמן</label></div><div class="chbx"><input type="checkbox"
+	        value="2639" id="view_teachers78" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers78">נעמה כץ</label></div><div class="chbx"><input type="checkbox"
+	        value="2319" id="view_teachers79" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers79">סוזי שפילמן</label></div><div class="chbx"><input type="checkbox"
+	        value="3161" id="view_teachers80" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers80">סמואל רובינסון</label></div><div class="chbx"><input type="checkbox"
+	        value="2417" id="view_teachers81" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers81">עדי חסון</label></div><div class="chbx"><input type="checkbox"
+	        value="2361" id="view_teachers82" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers82">עופרה שלף</label></div><div class="chbx"><input type="checkbox"
+	        value="2378" id="view_teachers83" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers83">עידו צדר</label></div><div class="chbx"><input type="checkbox"
+	        value="3068" id="view_teachers84" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers84">עידית טוגנדרייך</label></div><div class="chbx"><input type="checkbox"
+	        value="2360" id="view_teachers85" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers85">עילאיה שליט</label></div><div class="chbx"><input type="checkbox"
+	        value="2443" id="view_teachers86" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers86">עינה לוי</label></div><div class="chbx"><input type="checkbox"
+	        value="2444" id="view_teachers87" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers87">עינת חזן</label></div><div class="chbx"><input type="checkbox"
+	        value="3164" id="view_teachers88" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers88">עמית גולדשטיין</label></div><div class="chbx"><input type="checkbox"
+	        value="2372" id="view_teachers89" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers89">עמית עזז</label></div><div class="chbx"><input type="checkbox"
+	        value="3025" id="view_teachers90" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers90">עמרי פלרמן</label></div><div class="chbx"><input type="checkbox"
+	        value="2283" id="view_teachers91" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers91">ענבר קוקס</label></div><div class="chbx"><input type="checkbox"
+	        value="2394" id="view_teachers92" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers92">ענבר רונן</label></div><div class="chbx"><input type="checkbox"
+	        value="2447" id="view_teachers93" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers93">ענת אמסלם</label></div><div class="chbx"><input type="checkbox"
+	        value="2389" id="view_teachers94" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers94">ענת מונסליזה</label></div><div class="chbx"><input type="checkbox"
+	        value="2284" id="view_teachers95" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers95">צח זמרוני</label></div><div class="chbx"><input type="checkbox"
+	        value="511" id="view_teachers96" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers96">קבלה</label></div><div class="chbx"><input type="checkbox"
+	        value="2358" id="view_teachers97" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers97">קרן אור</label></div><div class="chbx"><input type="checkbox"
+	        value="2893" id="view_teachers98" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers98">קרן גלמן</label></div><div class="chbx"><input type="checkbox"
+	        value="2934" id="view_teachers99" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers99">רועי וייס</label></div><div class="chbx"><input type="checkbox"
+	        value="2274" id="view_teachers100" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers100">רותי סמוליקוב</label></div><div class="chbx"><input type="checkbox"
+	        value="3176" id="view_teachers101" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers101">רותם רוזנסקי</label></div><div class="chbx"><input type="checkbox"
+	        value="3013" id="view_teachers102" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers102">רותם תש"ח</label></div><div class="chbx"><input type="checkbox"
+	        value="2932" id="view_teachers103" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers103">רחל וילוז'ני</label></div><div class="chbx"><input type="checkbox"
+	        value="2273" id="view_teachers104" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers104">ריטה בצלאל</label></div><div class="chbx"><input type="checkbox"
+	        value="2418" id="view_teachers105" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers105">רנה</label></div><div class="chbx"><input type="checkbox"
+	        value="2362" id="view_teachers106" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers106">רסילה דווה</label></div><div class="chbx"><input type="checkbox"
+	        value="2616" id="view_teachers107" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers107">שחר תמיר</label></div><div class="chbx"><input type="checkbox"
+	        value="2998" id="view_teachers108" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers108">שיר לוי</label></div><div class="chbx"><input type="checkbox"
+	        value="3257" id="view_teachers109" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers109">שלומית פונדמינסקי</label></div><div class="chbx"><input type="checkbox"
+	        value="2608" id="view_teachers110" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers110">שמרית זיו</label></div><div class="chbx"><input type="checkbox"
+	        value="2377" id="view_teachers111" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers111">שקד גורפינקל-כהן</label></div><div class="chbx"><input type="checkbox"
+	        value="2829" id="view_teachers112" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers112">שרה גרנגה</label></div><div class="chbx"><input type="checkbox"
+	        value="2413" id="view_teachers113" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers113">שרון ליבנה</label></div><div class="chbx"><input type="checkbox"
+	        value="2937" id="view_teachers114" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers114">שרית מאור</label></div><div class="chbx"><input type="checkbox"
+	        value="2414" id="view_teachers115" name="view_teachers[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_teachers115">תמר בר גיל</label></div></div></div><div class="places tab-content" id="content-categories" style="display:none"><div  id="form_view_categories"  class="styled1"  ><div class="chbx"><input type="checkbox"
+	        value="0" id="view_categories0" name="view_categories[]" class=" class="styled1"" checked="checked" >&nbsp;
+	        <label for="view_categories0">כל הקטגוריות</label></div><div class="chbx"><input type="checkbox"
+	        value="6" id="view_categories1" name="view_categories[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_categories1">יוגה</label></div><div class="chbx"><input type="checkbox"
+	        value="7" id="view_categories2" name="view_categories[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_categories2">פילאטיס</label></div><div class="chbx"><input type="checkbox"
+	        value="8" id="view_categories3" name="view_categories[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_categories3">פילאטיס מכשירים \ TRX \ MOTR</label></div><div class="chbx"><input type="checkbox"
+	        value="9" id="view_categories4" name="view_categories[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_categories4">עיצוב הגוף וכושר</label></div><div class="chbx"><input type="checkbox"
+	        value="10" id="view_categories5" name="view_categories[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_categories5">מחול</label></div><div class="chbx"><input type="checkbox"
+	        value="11" id="view_categories6" name="view_categories[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_categories6">קליניקה</label></div><div class="chbx"><input type="checkbox"
+	        value="13" id="view_categories7" name="view_categories[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_categories7">מדיטציה</label></div><div class="chbx"><input type="checkbox"
+	        value="28" id="view_categories8" name="view_categories[]" class=" class="styled1"" >&nbsp;
+	        <label for="view_categories8">שיעורים חדשים</label></div></div></div></div><span class="desktop-only"><select  name="view_type"  id="form_view_types"  class="styled1"   onchange="getView(511, start_location, 0, start_teacher,start_category,1);" ><option value="2" >שבוע</option><option value="1" >חודש</option><option value="3" selected="selected">יום</option></select><span><script type="text/javascript">
+                 function checkfilter(type, e) {
+                    var $target = $(e.target),
+                        aID = type+"0";
+                    if ($target.prop("id") == aID) {
+                        jQuery("[name='"+type+"[]']").removeAttr("checked");
+                        $target.prop({checked: "checked"});
+                        return false;
+                    }
+                    var a = jQuery("#" + aID).is(":checked"),
+                        checkedCount = 0;
+                    jQuery("[name='"+type+"[]']").each(function(idx, elem) {
+                        if(jQuery(elem).prop("id")!= aID) {
+                            if (elem.checked) {
+                                jQuery("#"+type+"0").removeAttr("checked");
+                                checkedCount++;
+                            }
+                        }
+                    });
+                    if (!checkedCount) {
+                        jQuery("#" + aID).prop({checked: "checked"});
+                    }
+                 }
+                 jQuery(".tab").click(function(e){
+                        var c = jQuery(this).hasClass("active");
+                        var t = jQuery(this).attr("id");
+                        jQuery(".tab").removeClass("active");
+                        jQuery(".tab-content").fadeOut();
+                        if(!c) {
+                            jQuery(this).addClass("active");
+                            jQuery(".tab-content#content-" + t).fadeIn();
+                            switch(t) {
+                                case "locations":
+                                    checkfilter("location_id",e);
+                                    break;
+                                case "teachers":
+                                    checkfilter("view_teachers",e);
+                                    break;
+                                case "categories":
+                                    checkfilter("view_categories",e);
+                                    break;
+                            }
+                        }
+                        jQuery(".buttons").fadeIn();
+                   });
+                   jQuery("#clear").click(function(){
+                         var teachers_str = 0;
+                          var locations_str = 0;
+                          var categories_str = 0;
+                          anotherDay(0, 511, locations_str, 0, teachers_str, categories_str, 1);
+                    });
+                  jQuery(".filter-tabs").on("click","input[type=checkbox]", function(e) {
+                        checkfilter("location_id", e);
+                        checkfilter("view_teachers", e);
+                        checkfilter("view_categories", e);
+                  });
+                  jQuery("#filter").click(function(){
+                        var sel_teachers = jQuery("[name='view_teachers[]']:checked");
+                        var teachers = new Array();
+                        jQuery.map(sel_teachers,function(st){
+                                teachers.push(jQuery(st).val());
+                          });
+                          var sel_locations = jQuery("[name='location_id[]']:checked");
+                          var locations = new Array();
+                          jQuery.map(sel_locations,function(sl){
+                                locations.push(jQuery(sl).val());
+                          });
+                          var sel_categories = jQuery("[name='view_categories[]']:checked");
+                          var categories = new Array();
+                          jQuery.map(sel_categories,function(sc){
+                                categories.push(jQuery(sc).val());
+                          });
+                          console.log("categories: " + categories);
+                          console.log("locations: " + locations);
+                          console.log("teachers: " + teachers);
+                          var teachers_str = 0;
+                          var locations_str = 0;
+                          var categories_str = 0;
+                          if(teachers.length > 0){
+                              teachers_str =  teachers.join("_");
+                          }
+                          if(locations.length > 0){
+                             locations_str = locations.join("_");
+                          }
+                          if(categories.length > 0){
+                             categories_str = categories.join("_");   
+                          }
+                          console.log("locations_str: " + locations_str);
+                          console.log("teachers_str: " + teachers_str);
+                          console.log("categories_str: " + categories_str);
+                          anotherDay(0, 511, locations_str, 0, teachers_str, categories_str, 1);
+                  });
+                </script><div class="mobile-only"><div class="dates_line blue"><a class="page_prev_blue link prev " onclick="prevDay(511,0, start_location, 1, start_teacher, start_category,1);return false;"><span>יום הקודם</span></a><a class="page_next_blue link next " onclick="nextDay(511,0, start_location, 1, start_teacher, start_category,1);return false;"><span>יום הבא</span></a><div class="calendar_date blue"><a href="#" class="top_calendar_blue" onclick="currDay(511, start_location, 1, start_teacher,start_category,1);return false;">חמישי, 31/03/2016 (היום)</a><div class="clear-divs"></div></div></div></div><span class="desktop-only"><a class="curr " style="visibility: hidden;" onclick="currDay(511, start_location, 1, start_teacher, start_category,1);return false;">היום</a><div class="clear-divs"></div></span></div><div class="specifications_hours"><div class="sub_sub_entry" data-id="523270"><div class="white_title_sub"><span class="right"><span class="time">07:30</span><a target="new" href="http://www.naim.org.il/mysore/">מייסור יוגה ABC</a><span class="teacher"><a target="new" href="http://www.naim.org.il/janah/">ג'אנח</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">07:30 - 10:00</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">דרך שלמה 46</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="583173"><div class="white_title_sub"><span class="right"><span class="time">08:00</span><a target="new" href="http://www.naim.org.il/pilates/">פילאטיס ABC</a><span class="teacher"><a target="new" href="http://www.naim.org.il/michalg/">מיכל גודפרי</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">08:00 - 09:00</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">רוטשילד 4</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="502987"><div class="white_title_sub"><span class="right"><span class="time">08:30</span><a target="new" href="http://www.naim.org.il/pilates/">פילאטיס ABC</a><span class="teacher">ענת מונסליזה</span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">08:30 - 09:30</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">דרך שלמה 46</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="668456"><div class="white_title_sub"><span class="right"><span class="time">09:00</span><a target="new" href="http://www.naim.org.il/machines/">פילאטיס מכשירים ABC</a><span class="teacher">זהר נבו</span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">09:00 - 10:00</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">שמעון הצדיק 18, יפו</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="514513"><div class="white_title_sub"><span class="right"><span class="time">09:00</span><a target="new" href="http://www.naim.org.il/machines/">פילאטיס מכשירים ABC</a><span class="teacher"><a target="new" href="http://www.naim.org.il/anata/">ענת אמסלם</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">09:00 - 10:00</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">וושינגטון 29</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="475715"><div class="white_title_sub"><span class="right"><span class="time">09:00</span><a target="new" href="http://www.naim.org.il/ballet">בלט BC</a><span class="teacher"><a target="new" href="http://www.naim.org.il/dinaziv/">דינה זיו</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">09:00 - 10:30</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">דרך שלמה 46</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="837229"><div class="white_title_sub"><span class="right"><span class="time">09:30</span><a target="new" href="http://www.naim.org.il/clinic/">קליניקה קהילתית לדיקור</a><span class="teacher"><a target="new" href="http://www.naim.org.il/clinic">יואב שחר</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">09:30 - 12:30</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">שמעון הצדיק 18, יפו</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="668508"><div class="white_title_sub"><span class="right"><span class="time">10:00</span><a target="new" href="http://www.naim.org.il/machines/">פילאטיס מכשירים ABC</a><span class="teacher">זהר נבו</span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">10:00 - 11:00</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">שמעון הצדיק 18, יפו</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="666354"><div class="white_title_sub"><span class="right"><span class="time">10:00</span><a target="new" href="http://www.naim.org.il/pilates/">פילאטיס ABC</a><span class="teacher">ליטל קורן</span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">10:00 - 11:00</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">שמעון הצדיק 18, יפו</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="514566"><div class="white_title_sub"><span class="right"><span class="time">10:00</span><a target="new" href="http://www.naim.org.il/machines/">פילאטיס מכשירים ABC</a><span class="teacher"><a target="new" href="http://www.naim.org.il/anata/">ענת אמסלם</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">10:00 - 11:00</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">וושינגטון 29</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry lesson-new" data-id="821589"><div class="white_title_sub"><span class="right"><span class="time">10:00</span><a target="new" href="http://www.naim.org.il/vinyasa/">ויניאסה ABC</a><span class="teacher"><a target="new" href="http://www.naim.org.il/talia-sutra/">טליה סוטרה</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">10:00 - 11:30</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">שמעון הצדיק 18, יפו</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="482223"><div class="white_title_sub"><span class="right"><span class="time">10:30</span><a target="new" href="http://www.naim.org.il/pilates/">פילאטיס ABC</a><span class="teacher">ענת מונסליזה</span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">10:30 - 11:30</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">רוטשילד 4</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="503143"><div class="white_title_sub"><span class="right"><span class="time">10:30</span><a target="new" href="http://www.naim.org.il/%D7%95%D7%99%D7%A0%D7%99%D7%90%D7%A1%D7%94-vinyasa/">ויניאסה ABC</a><span class="teacher"><a target="new" href="http://www.naim.org.il/jacqueline/">ג'קי לוגן</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">10:30 - 12:00</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">דרך שלמה 46</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="503091"><div class="white_title_sub"><span class="right"><span class="time">10:30</span><a target="new" href="http://www.naim.org.il/%D7%9E%D7%97%D7%95%D7%9C-%D7%9E%D7%95%D7%93%D7%A8%D7%A0%D7%99/">מודרני ABC</a><span class="teacher"><a target="new" href="http://www.naim.org.il/matan-daskal/">מתן דסקל</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">10:30 - 12:00</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">דרך שלמה 46</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="670038"><div class="white_title_sub"><span class="right"><span class="time">11:30</span><a target="new" href="http://www.naim.org.il/flyfit">FlyCore</a><span class="teacher"><a target="new" href="http://www.naim.org.il/dannasokoler/">דנה סוקולר</a> (ליטל קורן)</span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">11:30 - 12:30</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">דרך שלמה 46</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="679287"><div class="white_title_sub"><span class="right"><span class="time">11:45</span><a target="new" href="http://www.naim.org.il/vinyasa/">ויניאסה ABC</a><span class="teacher"><a target="new" href="http://www.naim.org.il/%D7%99%D7%95%D7%A0%D7%AA%D7%9F-%D7%A7%D7%93%D7%9D/">יונתן קדם</a> (<a target="new" href="http://www.naim.org.il/samuel-robinson/">סמואל רובינסון</a>)</span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">11:45 - 13:15</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">רוטשילד 4</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="639160"><div class="white_title_sub"><span class="right"><span class="time">12:00</span><a target="new" href="http://www.naim.org.il/machines/">פילאטיס מכשירים AB</a><span class="teacher"><a target="new" href="http://www.naim.org.il/michalg/">מיכל גודפרי</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">12:00 - 13:00</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">וושינגטון 29</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="503196"><div class="white_title_sub"><span class="right"><span class="time">12:00</span><a target="new" href="http://www.naim.org.il/yelleb/">פילאטיס סיקוונס BC</a><span class="teacher"><a target="new" href="http://www.naim.org.il/yelleb/">אלה בן אהרון</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">12:00 - 13:00</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">דרך שלמה 46</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="639108"><div class="white_title_sub"><span class="right"><span class="time">13:00</span><a target="new" href="http://www.naim.org.il/machines/">פילאטיס מכשירים AB</a><span class="teacher"><a target="new" href="http://www.naim.org.il/michalg/">מיכל גודפרי</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">13:00 - 14:00</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">וושינגטון 29</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="503249"><div class="white_title_sub"><span class="right"><span class="time">13:00</span><a target="new" href="http://www.naim.org.il/vinyasa/">ויניאסה ABC</a><span class="teacher"><a target="new" href="http://www.naim.org.il/tanja-saban/">טניה סבן</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">13:00 - 14:30</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">דרך שלמה 46</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="514725"><div class="white_title_sub"><span class="right"><span class="time">17:00</span><a target="new" href="http://www.naim.org.il/machines/">פילאטיס מכשירים AB</a><span class="teacher">אדווה שמיר</span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">17:00 - 18:00</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">וושינגטון 29</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="503301"><div class="white_title_sub"><span class="right"><span class="time">17:30</span><a target="new" href="http://www.naim.org.il/barre-pilates/">באר/פילאטיס ABC</a><span class="teacher"><a target="new" href="http://www.naim.org.il/ava/">אווה</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">17:30 - 18:30</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">דרך שלמה 46</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="503405"><div class="white_title_sub"><span class="right"><span class="time">17:45</span><a target="new" href="http://www.naim.org.il/%D7%90%D7%A9%D7%98%D7%A0%D7%92%D7%94-%D7%95%D7%99%D7%A0%D7%99%D7%90%D7%A1%D7%94/">אשטנגה A</a><span class="teacher"><a target="new" href="http://www.naim.org.il/janah/">ג'אנח</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">17:45 - 19:00</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">דרך שלמה 46</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="668664"><div class="white_title_sub"><span class="right"><span class="time">18:00</span><a target="new" href="http://www.naim.org.il/pilates/">פילאטיס ABC</a><span class="teacher"><a target="new" href="http://www.naim.org.il/shimritziv">שמרית זיו</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">18:00 - 19:00</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">שמעון הצדיק 18, יפו</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="668560"><div class="white_title_sub"><span class="right"><span class="time">18:00</span><a target="new" href="http://www.naim.org.il/machines/">פילאטיס מכשירים ABC</a><span class="teacher"><a target="new" href="http://www.naim.org.il/shaked/">שקד גורפינקל-כהן</a> (קרן גלמן)</span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">18:00 - 19:00</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">שמעון הצדיק 18, יפו</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="585072"><div class="white_title_sub"><span class="right"><span class="time">18:00</span><a target="new" href="http://www.naim.org.il/neta-sarig/">מודרני AB</a><span class="teacher"><a target="new" href="http://www.naim.org.il/neta-sarig/">נטע שריג</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">18:00 - 19:15</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">דרך שלמה 46</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="819942"><div class="white_title_sub"><span class="right"><span class="time">18:00</span><a target="new" href="http://www.naim.org.il/vinyasa/">פוואר ויניאסה AB</a><span class="teacher"><a target="new" href="http://www.naim.org.il/samuel-robinson/">סמואל רובינסון</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">18:00 - 19:30</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">שמעון הצדיק 18, יפו</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="514778"><div class="white_title_sub"><span class="right"><span class="time">18:00</span><a target="new" href="http://www.naim.org.il/machines/">פילאטיס מכשירים B</a><span class="teacher">אדווה שמיר</span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">18:00 - 19:00</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">וושינגטון 29</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry lesson-new" data-id="819677"><div class="white_title_sub"><span class="right"><span class="time">18:00</span><a target="new" href="http://www.naim.org.il/shin-sen-do/">שין סן דו ABC</a><span class="teacher"><a target="new" href="http://www.naim.org.il/shin-sen-do/">אביטל אדר</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">18:00 - 19:00</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">דרך שלמה 46</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="706115"><div class="white_title_sub"><span class="right"><span class="time">18:10</span><a target="new" href="http://tazman.co.il/minisite/studionaim/courses/?id=6460">עיצוב וחיטוב</a><span class="teacher">עידית טוגנדרייך</span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">18:10 - 18:55</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">וושינגטון 29</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="655459"><div class="white_title_sub"><span class="right"><span class="time">18:10</span><a target="new" href="http://www.naim.org.il/pilates/">פילאטיס ABC</a><span class="teacher"><a target="new" href="http://www.naim.org.il/elia-etkin/">אליה אתקין</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">18:10 - 19:10</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">רוטשילד 4</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="691189"><div class="white_title_sub"><span class="right"><span class="time">18:15</span><a target="new" href="http://www.tazman.co.il/minisite/studionaim/courses/?id=6356">קיקבוקס ABC</a><span class="teacher">אור קרת</span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">18:15 - 19:05</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">דרך שלמה 46</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="503561"><div class="white_title_sub"><span class="right"><span class="time">18:30</span><a target="new" href="http://www.naim.org.il/%D7%91%D7%9C%D7%98-%D7%A7%D7%9C%D7%90%D7%A1%D7%99/">בלט A</a><span class="teacher">ליגל מלמד</span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">18:30 - 19:30</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">דרך שלמה 46</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="487346"><div class="white_title_sub"><span class="right"><span class="time">18:55</span><a target="new" href="http://www.naim.org.il/tabata/">Bootcamp ABC</a><span class="teacher">עידית טוגנדרייך</span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">18:55 - 19:30</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">וושינגטון 29</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="665932"><div class="white_title_sub"><span class="right"><span class="time">19:00</span><a target="new" href="http://www.naim.org.il/iyengar-yoga/">איינגר ABC</a><span class="teacher"><a target="new" href="http://www.naim.org.il/rachel-vilosny/">רחל וילוז'ני</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">19:00 - 20:30</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">דרך שלמה 46</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="514831"><div class="white_title_sub"><span class="right"><span class="time">19:00</span><a target="new" href="http://www.naim.org.il/machines/">פילאטיס מכשירים BC</a><span class="teacher">אדווה שמיר</span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">19:00 - 20:00</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">וושינגטון 29</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="668716"><div class="white_title_sub"><span class="right"><span class="time">19:00</span><a target="new" href="http://www.naim.org.il/ashtanga/">אשטנגה ABC</a><span class="teacher"><a target="new" href="http://www.naim.org.il/ko/">קרן אור</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">19:00 - 20:30</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">שמעון הצדיק 18, יפו</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="668612"><div class="white_title_sub"><span class="right"><span class="time">19:00</span><a target="new" href="http://www.naim.org.il/machines/">פילאטיס מכשירים ABC</a><span class="teacher"><a target="new" href="http://www.naim.org.il/shaked/">שקד גורפינקל-כהן</a> (קרן גלמן)</span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">19:00 - 20:00</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">שמעון הצדיק 18, יפו</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="499376"><div class="white_title_sub"><span class="right"><span class="time">19:15</span><a target="new" href="http://www.naim.org.il/lyrical-jazz-dance/">לירי ABC</a><span class="teacher"><a target="new" href="http://www.naim.org.il/dafna/">דפנה גרבינסקי</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">19:15 - 20:45</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">דרך שלמה 46</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="655407"><div class="white_title_sub"><span class="right"><span class="time">19:15</span><a target="new" href="http://www.naim.org.il/jivamukti-yoga/">ויניאסה יוגה</a><span class="teacher"><a target="new" href="http://www.naim.org.il/jacqueline/">ג'קי לוגן</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">19:15 - 20:45</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">רוטשילד 4</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="503717"><div class="white_title_sub"><span class="right"><span class="time">19:15</span><a target="new" href="http://www.naim.org.il/pilates/">פילאטיס ABC</a><span class="teacher"><a target="new" href="http://www.naim.org.il/neta-sarig/">נטע שריג</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">19:15 - 20:15</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">דרך שלמה 46</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="503613"><div class="white_title_sub"><span class="right"><span class="time">19:15</span><a target="new" href="http://www.naim.org.il/yin-yoga/">ין יוגה ABC</a><span class="teacher"><a target="new" href="http://www.naim.org.il/eddy-toyonaga-power-yoga/">אדי טויונגה</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">19:15 - 20:15</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">דרך שלמה 46</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="503665"><div class="white_title_sub"><span class="right"><span class="time">19:30</span><a target="new" href="http://www.naim.org.il/%D7%91%D7%9C%D7%98-%D7%A7%D7%9C%D7%90%D7%A1%D7%99/">בלט B</a><span class="teacher">ליגל מלמד</span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">19:30 - 21:00</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">דרך שלמה 46</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="691084"><div class="white_title_sub"><span class="right"><span class="time">19:30</span><a target="new" href="http://www.naim.org.il/trx/">TRX BC</a><span class="teacher">עמרי פלרמן</span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">19:30 - 20:20</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">וושינגטון 29</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="514884"><div class="white_title_sub"><span class="right"><span class="time">20:00</span><a target="new" href="http://www.naim.org.il/machines/">פילאטיס מכשירים A</a><span class="teacher">אדווה שמיר</span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">20:00 - 21:00</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">וושינגטון 29</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="503769"><div class="white_title_sub"><span class="right"><span class="time">20:00</span><a target="new" href="http://www.naim.org.il/acroyoga/">אקרו יוגה ABC</a><span class="teacher"><a target="new" href="http://www.naim.org.il/inbar-ronen/">ענבר רונן</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">20:00 - 22:00</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">דרך שלמה 46</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="499640"><div class="white_title_sub"><span class="right"><span class="time">20:15</span><a target="new" href="http://www.naim.org.il/מחול-מודרני/">מודרני C</a><span class="teacher"><a target="new" href="http://www.naim.org.il/ilayah-shalit/">עילאיה שליט</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">20:15 - 21:40</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">דרך שלמה 46</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="691137"><div class="white_title_sub"><span class="right"><span class="time">20:20</span><a target="new" href="http://www.naim.org.il/trx-open/">TRX משולב</a><span class="teacher">עמרי פלרמן</span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">20:20 - 21:10</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">וושינגטון 29</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="499482"><div class="white_title_sub"><span class="right"><span class="time">20:30</span><a target="new" href="http://www.naim.org.il/vinyasa/">פאוור ויניאסה ABC</a><span class="teacher"><a target="new" href="http://www.naim.org.il/eddy-toyonaga-power-yoga/">אדי טויונגה</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">20:30 - 22:00</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">דרך שלמה 46</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div><div class="sub_sub_entry" data-id="595606"><div class="white_title_sub"><span class="right"><span class="time">20:30</span><a target="new" href="http://www.naim.org.il/suzanna-shpilman/">מדיטציה אקטיבית</a><span class="teacher"><a target="new" href="http://www.naim.org.il/suzanna-shpilman/">רסילה דווה</a></span></span><a href="#" class="arrow_howrs left"><span class="arrow_sprite"></span></a><div class="clear-divs"></div></div><div class="specifications"><div class="specific"><span class="sp_right">שעת המפגש</span><span class="sp_left">20:30 - 22:00</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מיקום</span><span class="sp_left">דרך שלמה 46</span><div class="clear-divs"></div></div><div class="specific"><span class="sp_right">מקומות פנויים</span><span class="sp_left">99</span><div class="clear-divs"></div></div></div></div></div><div class="ifprint" style="display:none"><a href="javascript:window.print();">הדפסה</a></div><script>function init() { if(parent !== window) { jQuery(".ifprint").show(); } };init();</script>
+        <style>
+            @media print {
+                .filter-tabs,
+                .page_prev_blue,
+                .page_next_blue { display :none !important; }
+            }
+        </style>
+    <script type="text/javascript"> 
+        console.log(onsite);
+        if(onsite && typeof timetable_selects === "function"){
+             timetable_selects();
+        }
+        </script></div><a target="_blank" class="created" href="http://tazman.co.il/"> נבנה על ידי תאזמן</a><span style="clear: both;"></span>
+<style>
+@import url(http://fonts.googleapis.com/css?family=Alef);
+.not_a_link{text-decoration:none !important; cursor:text !important;}
+.not_a_link:hover{color:gray !important;}
+* { font-family:"Alef" ,sans-serif; font-size: 14px; }
+body {overflow:hidden;}
+.specifications_hours > h2 {  background: #63d4ae none repeat scroll 0 0;  color: white;}
+body{overflow:hidden;}
+div.wrapper {  width: 97% !important; }
+.places {  display: inline-block;  float: right;  margin: 5px 0 5px 5px; width: 100%;}
+#form_view_types {  display: none;}
+.mobile-only {  clear: both;  display: block;  text-align: center;}
+.sub_sub_entry { clear: both; color: gray; line-height:30px; border-top: 2px solid gray; width: 100%; margin-top:3px;}
+.right {  float: right; margin-top: 0px; text-align: right;  width: 270px;}
+.time {  display: none;}
+.teacher::before {  content: "   ";  white-space: pre;}
+.sp_right {  float: right; display: none;  margin-right: 10px;}
+.sp_left {  display: inline-block;  float: left;  margin-left: 5px;  text-align: right;  width: 100px;}
+.top_calendar_blue {  color: #000; }
+.places:nth-of-type(4):not(.tab-content) {  margin-right: 35px;}
+.places:nth-of-type(3) {  float: left;}
+.buttons button {cursor:pointer;}
+//div.wrapper a.link.next{  display: inline-block !important;  float: none !important; padding-bottom: 5px;}
+//div.wrapper a.link.prev {  display: inline-block;  float: none; padding-bottom: 5px;}
+.apply, .clear {  background: transparent none repeat scroll 0 0;  border: medium none;  color: #63D4AE;  display: block;   height: 25px;  margin: 5px 0;}
+.apply{;float:right;}
+.clear{float:left}
+.clear:hover, .apply:hover { color:#dadada;}
+.chbx {  border: 1px solid #d1d1d1;  display: inline-block;  float: right;  text-align: right;  width: 100%;}
+.filter-tabs::after {  clear: both;  content: "";  display: table;}
+.filter-tabs {  background: #fff none repeat scroll 0 0; height: auto; padding: 0 0 20px;}
+.tab:hover{ background:#dadada;}
+.specific:last-child {  display: none;}
+.teacher > a {  color: gray;  text-decoration: none;}
+.right > a {  background: grey none repeat scroll 0 0;  color: white;  display: inline-block;  padding: 0 10px;  text-decoration: none;  width: 45%;}
+.white_title_sub {  display: inline-block;  float: right; margin-bottom: 2px; width: 49% !important;}
+.specifications { display: inline-block;  width: 50%;}
+.teacher {  float: left;}
+.page_prev_blue.link.prev > span::before { margin: 0 0 0 5px; background: #63D4AE; color: #fff;    content: "  \25BA  "; padding: 4px; padding-right: 8px; }
+.page_prev_blue.link.prev > span {line-height: 25px; border-bottom: 2px solid #63D4AE;  display: inline-block;  text-align: right; width:50%; color: #63D4AE;}
+.page_next_blue.link.next > span::after { margin: 0 5px 0 0; background: #63D4AE;  color: #fff;    content: "  \25C4  ";  padding: 4px; padding-left: 8px; }
+.page_next_blue.link.next > span {line-height: 25px; border-bottom: 2px solid #63D4AE; display: inline-block;  text-align: left; width:50%; color: #63D4AE;}
+.page_prev_blue.link.prev, .page_next_blue.link.next {  margin: 0 !important;}
+.desktop-only:first-child > div::before { color:#fff;  }
+div.wrapper a.link:hover, div.wrapper a.link{background:#fff !important;     display: inline;    float: none !important; min-height:30px; line-height:30px;}
+.desktop-only:first-child > div {   margin-bottom: 10px; color:#fff; background: #63D4AE; display: inline-block;   line-height: 28px;     width: 100%; }
+.mobile-only {  display: none !important;}
+.tab {  color: transparent;  margin-bottom: 4px; background: #63D4AE none repeat scroll 0 0; line-height: 28px;}
+//.specific:nth-child(n+2) .sp_right {  display: block; margin-right:0 !important;}
+.desktop-only {  display: table-footer-group; }
+div.schedule-top { width: 100%; color: #000000;  display: table;  line-height: 36px;  margin-bottom: 15px;}
+.desktop-only:last-child {  display: none;}
+.specific{float:left; width:40%}
+.tab.headtab {  margin: 10px 0;}
+.tab.headtab:hover {   background: #63D4AE none repeat scroll 0 0;  }
+#locations.tab {  display: table-footer-group;}
+#categories.tab::after{ content: "הצג מערכת לפי תחומים ";}
+#teachers.tab::after{ content: "הצג מערכת לפי מורים ";}
+#locations.tab::after{ content: " הצג מערכת לפי סניפים ";}
+.tabs-header {  display: table;  width: 100%;}
+.tab::after { color: #fff;  /* position: absolute;   right: 45%;*/ text-indent:0px; display:block; margin-top:-25px;}
+
+.sub_sub_entry.lesson-new .right > a {
+  border-radius: 2px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.sub_sub_entry.lesson-new .right > a::after {
+  background-color: #ccc;
+  border-radius: 2px;
+  color: white;
+  content: " חדש! ";
+  margin: 0 3px;
+  padding: 0 0 0 3px;
+cursor: default;
+}
+.sub_sub_entry.lesson-new .right > a::after:hover {
+text-decoration:none;
+ }
+.sub_sub_entry.lesson-canceled span, .sub_sub_entry.lesson-canceled span > a {  text-decoration: line-through !important;}
+
+
+
+@media screen and (max-width: 500px) {
+.sp_left {  width: auto;}
+.teacher::before { clear:both; content: "\A";  white-space: pre;}
+.teacher {  float: none;}
+.sub_sub_entry {  min-height: 70px;}
+.specific{width:100%}
+}
+@media screen and (min-width: 501px) {
+.white_title_sub .right { width: 100% !important; }
+.teacher { width: 50% !important; }
+.specific { width: 50% !important; }
+}
+.teacher a:hover {
+color: #63D4AE;
+}
+.right a:hover {
+text-decoration: underline;
+}
+@media print{
+.white_title_sub{margin-top:2px;}
+.right > a{color:black !important;}
+.ifprint, .created{display:none !important;}
+div.wrapper::before {
+  content: "" url("http://naim.valigar.co.il/wp-content/uploads/2015/06/naim-logo-544-180.png");
+}
+}
+</style>
+
+<script>
+function iframe_resize(){
+   var body = document.body,
+   height = body.offsetHeight, width = body.offsetWidth;
+
+   if (parent.postMessage) {
+                parent.postMessage(height + ',' + width, "http://www.naim.org.il");
+            }else{console.log('not send');}
+};
+
+function hide_teachers(){
+	jQuery('.sub_sub_entry').each(function(ind, el){
+		var text=jQuery(this).find('span.teacher').clone().children().remove().end().text();
+		//console.log(text);
+		if(text.length){
+			jQuery(this).find('span.teacher').contents().filter(function(){ 
+			  return this.nodeType == 3; 
+			}).wrap('<a onclick="return false;" class="not_a_link" ></a>');
+		}
+		if(jQuery(this).find('span.teacher a').length>1){
+			jQuery(this).find('span.teacher a:eq(0)').css('text-decoration','line-through');
+			if(jQuery(this).find('span.teacher').width() > jQuery(this).find('.white_title_sub').width()){		
+			
+				jQuery(this).find('span.teacher a:eq(0)').hide();
+			}
+			
+		}
+	}
+	);
+		
+}
+
+window.onload=iframe_resize();
+
+jQuery(document).on("click", function(){
+	setTimeout(function(){
+		iframe_resize(); 
+		hide_teachers();
+
+	},500);
+});
+
+jQuery(document).ready(function(){
+	hide_teachers();
+	iframe_resize();
+	$('.sub_sub_entry').find('a').each(function(){
+		$(this).attr("target","_parent");
+	});
+	
+});
+</script>
+
+<script>
+    function resizeParentFrame() {
+        var data = {
+            id: 'tazmanframe2',
+            width: jQuery('body').width(),
+            height: jQuery('body').height()
+        };
+        window.top.postMessage(JSON.stringify(data), 'http://www.naim.org.il');
+    }
+    if(window.self !== window.top) {
+        setInterval(resizeParentFrame,1000);
+    }
+</script>
+</body>
+</html>
